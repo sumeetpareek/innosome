@@ -534,3 +534,5 @@ color: #333;
 margin: 0;
 padding: 0;
 }
+.page-contact .list-of-services h2.block-title {display:none;}
+.page-contact .list-of-services img {width: 690px;}
