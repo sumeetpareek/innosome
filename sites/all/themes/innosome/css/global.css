@@ -176,6 +176,8 @@ margin: 0;
 #zone-preface-wrapper .region {
 	margin-bottom: 16px;
   box-shadow: 1px 2px 12px #ccc;
+  -moz-box-shadow: 1px 2px 12px #ccc;
+  -webkit-box-shadow: 1px 2px 12px #ccc;
 }
 #zone-preface-wrapper .region-inner {
 border: 1px solid #DFDFDF;
@@ -193,6 +195,8 @@ border: 1px solid #F0D98E;
 #zone-preface-wrapper #region-preface {
   margin-bottom: 16px;
   box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
   background: none;
 }
 #zone-preface-wrapper #region-preface .region-inner {
@@ -220,6 +224,8 @@ div.teaser-intro img {
 float: left;
 border: 1px solid #CCC;
 box-shadow: 0 2px 4px #ddd;
+-moz-box-shadow: 0 2px 4px #ddd;
+-webkit-box-shadow: 0 2px 4px #ddd;
 margin-right: 10px;
 }
 h2.block-title {
@@ -244,6 +250,8 @@ div.list-of-services .services-title,
 #block-views-innoraft-tweets-block h2.block-title,
 .block .innosome-box h2.block-title {
 box-shadow: 1px 2px 12px #ccc;
+-moz-box-shadow: 1px 2px 12px #ccc;
+-webkit-box-shadow: 1px 2px 12px #ccc;
 border: 1px solid #DFDFDF;
 margin: 16px 0;
 padding: 10px 10px;
@@ -255,12 +263,16 @@ display: block;
 
 .block .innosome-box .block-content {
 box-shadow: 1px 2px 12px #ccc;
+-moz-box-shadow: 1px 2px 12px #ccc;
+-webkit-box-shadow: 1px 2px 12px #ccc;
 border: 1px solid #DFDFDF;
 margin: 16px 0;
 }
 
 div.list-of-services .services-content {
 box-shadow: 1px 2px 12px #ccc;
+-moz-box-shadow: 1px 2px 12px #ccc;
+-webkit-box-shadow: 1px 2px 12px #ccc;
 border: 1px solid #DFDFDF;
 margin: 16px 0;
 padding-left: 9px;
@@ -298,6 +310,8 @@ float: left;
 margin-right: 10px;
 border: 1px solid #CCC;
 box-shadow: 0 2px 4px #ddd;
+-moz-box-shadow: 0 2px 4px #ddd;
+-webkit-box-shadow: 0 2px 4px #ddd;
 }
 #block-views-innoraft-tweets-block .views-field-text {}
 #block-views-innoraft-tweets-block .views-field-created-time {
@@ -410,6 +424,7 @@ background: black;
 
 #about-us-list img {
 -moz-box-shadow: 0 2px 4px #ddd;
+-webkit-box-shadow: 0 2px 4px #ddd;
 box-shadow: 0 2px 4px #ddd;
 -webkit-box-shadow: 0 2px 4px #ddd;
 border: 1px solid #CCC;
@@ -440,12 +455,16 @@ line-height: 1.8em;
 
 .not-front #block-system-main .block-content {
 box-shadow: 1px 2px 12px #ccc;
+-moz-box-shadow: 1px 2px 12px #ccc;
+-webkit-box-shadow: 1px 2px 12px #ccc;
 border: 1px solid #DFDFDF;
 margin: 16px 0;
 padding: 0px 10px;
 }
 #page-title {
 box-shadow: 1px 2px 12px #ccc;
+-moz-box-shadow: 1px 2px 12px #ccc;
+-webkit-box-shadow: 1px 2px 12px #ccc;
 border: 1px solid #DFDFDF;
 margin: 16px 0 0;
 padding: 10px 10px;
@@ -469,6 +488,8 @@ background: #4575F3;
 padding: 16px 10px;
 border-radius: 0px;
 box-shadow: 1px 2px 10px #999;
+-moz-box-shadow: 1px 2px 10px #999;
+-webkit-box-shadow: 1px 2px 10px #999;
 font-family: arial,sans-serif;
 text-align: center;
 margin: 10px 0px 20px;
@@ -481,6 +502,8 @@ padding: 10px;
 margin: 0px 40px 20px;
 text-align: center;
 box-shadow: 1px 2px 10px #999;
+-moz-box-shadow: 1px 2px 10px #999;
+-webkit-box-shadow: 1px 2px 10px #999;
 }
 
 #fancybox-content #block-contactblock-contactblock {
@@ -524,6 +547,8 @@ list-style: none;
 width: 298px;
 border: 1px solid #ccc;
 box-shadow: 0px 2px 4px #ddd;
+-moz-box-shadow: 0px 2px 4px #ddd;
+-webkit-box-shadow: 0px 2px 4px #ddd;
 margin-bottom: 8px;
 }
 .portfolio-item .label {
