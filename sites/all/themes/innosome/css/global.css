@@ -226,7 +226,9 @@ h2.block-title {
 	margin: 6px 0;
 }
 
-div.client-testimonials {}
+div.client-testimonials {
+min-height:410px;
+}
 div.client-testimonials .testimonial {
 	font-style: italic;
 	margin: 20px 0px 10px
