@@ -1,0 +1,107 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Install file.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Sets the module weight to make ed_readmore run later than most other modules.
+ * This prevents a conflict over the value of $node->readmore when used together
+ * with excerpt.module.
+ */
+function read_more_install() {
+  // TODO: Thoroughly review this implementation.
+  db_update('system')
+    ->fields(array(
+      'weight' => 5,
+    ))
+    ->condition('name', 'read_more')
+    ->execute();
+}
+
+
+/**
+ * @addtogroup updates-6.x-to-7.x
+ * @{
+ */
+
+
+/**
+ * Update 7000.
+ * 
+ * Upgrade from all Drupal 6 to Drupal 7.
+ */
+function ed_readmore_update_7000() {
+  // TODO: Write upgrade patch to Drupal 7.x.
+
+  // Combine the prepend, text, and append variables into one.
+  $read_more_text = variable_get('ed_readmore_text_prepend', '') . variable_get('ed_readmore_text', '') . variable_get('ed_readmore_text_append', '');
+  // If the previous site was using defaults, $read_more_text will be empty, and we can set new defaults later.
+  if (!empty($read_more_text)) {
+    variable_set('read_more_text', $read_more_text);
+  }
+
+  // Rename old variables.
+  variable_set('read_more_placement', variable_get('ed_readmore_placement', 'inline'));
+  variable_set('read_more_remove', variable_get('ed_readmore_remove', TRUE));
+  variable_set('read_more_anchor', variable_get('ed_readmore_anchor', FALSE));
+  variable_set('read_more_title', variable_get('ed_readmore_title', ''));
+  variable_set('read_more_nofollow', variable_get('ed_readmore_nofollow', TRUE));
+  variable_set('read_more_newwindow', variable_get('ed_readmore_newwindow', FALSE));
+  variable_set('read_more_elements', variable_get('ed_read_more_elements', array('p')));
+  variable_set('read_more_rss', variable_get('ed_readmore_rss', TRUE));
+
+  // Remove variables from the 6.x version of the module.
+  variable_del('ed_readmore_text');
+  variable_del('ed_readmore_text_prepend');
+  variable_del('ed_readmore_text_append');
+  variable_del('ed_readmore_placement');
+  variable_del('ed_readmore_remove');
+  variable_del('ed_readmore_anchor');
+  variable_del('ed_readmore_title');
+  variable_del('ed_readmore_nofollow');
+  variable_del('ed_readmore_newwindow');
+  variable_del('ed_readmore_elements');
+  variable_del('ed_readmore_rss');
+  variable_del('ed_readmore_tokens');
+
+  // Remove really old legacy variables if they exist.
+  variable_del('ed_readmore_readmore_tweak');
+  variable_del('ed_readmore_readmore_strong');
+  variable_del('ed_readmore_readmore_inline');
+  variable_del('ed_readmore_readmore_remove');
+
+  // Disable old ed_readmore module if it's enabled.
+  module_disable(array('ed_readmore'));
+
+  // Must return an array.
+  return array();
+}
+
+
+/**
+ * @} End of "addtogroup updates-6.x-to-7.x"
+ */
+
+
+/**
+ * Implements hook_uninstall().
+ */
+function read_more_uninstall() {
+  // Remove variables.
+  variable_del('read_more_placement');
+  variable_del('read_more_remove');
+  variable_del('read_more_anchor');
+  variable_del('read_more_text');
+  variable_del('read_more_text_prepend');
+  variable_del('read_more_text_append');
+  variable_del('read_more_title');
+  variable_del('read_more_nofollow');
+  variable_del('read_more_newwindow');
+  variable_del('read_more_elements');
+  variable_del('read_more_rss');
+}

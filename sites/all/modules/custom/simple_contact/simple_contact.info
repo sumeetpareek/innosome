@@ -1,0 +1,5 @@
+name = Simple Contact
+description = Removes the subject field from Drupal core contact module
+package = Innoraft
+version = VERSION
+core = 7.x

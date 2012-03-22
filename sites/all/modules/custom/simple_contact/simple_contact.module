@@ -1,0 +1,16 @@
+<?php 
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add the default personal contact setting on the user settings page.
+ */
+function simple_contact_form_contact_site_form_alter(&$form, &$form_state) {
+  // We do not want the subject field.
+	$form['subject'] = array(
+    '#type' => 'hidden',
+    '#title' => t('Subject'),
+    '#maxlength' => 255,
+    '#value' => 'Conversations With Innoraft',
+  );
+}
