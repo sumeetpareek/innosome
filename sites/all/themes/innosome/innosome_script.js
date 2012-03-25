@@ -57,6 +57,21 @@ $(document).ready(function(){
 			$('#region-footer-second').parent().css('width',0).css('height','0');
 		},
 	});
+
+        $(".drupalcon-fact-img").fancybox({
+                'overlayOpacity':1,
+                'overlayColor':'#000',
+                'hideOnOverlayClick':false,
+                'hideOnContentClick':false,
+                'scrolling':'no',
+                'autoScale':true,
+                'centerOnScroll':true,
+                'autoDimensions':false,
+		'transitionIn':'elastic',
+		'transitionOut':'elastic'
+        });
+
+
 	
 	// Slide tweets
 	setInterval(function(){slide_tweets();}, 2000);

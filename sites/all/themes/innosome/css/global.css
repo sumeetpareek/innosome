@@ -561,3 +561,24 @@ padding: 0;
 }
 .page-contact .list-of-services h2.block-title {display:none;}
 .page-contact .list-of-services img {width: 690px;}
+
+#drupalcon-fact-list {}
+#drupalcon-fact-list li {
+float: left;
+list-style: none;
+margin: 10px;
+border: 1px solid #CCC;
+box-shadow: 0px 2px 4px #ddd;
+-moz-box-shadow: 0px 2px 4px #ddd;
+-webkit-box-shadow: 0px 2px 4px #ddd;
+height:200px;
+overflow:hidden;
+}
+#drupalcon-fact-list img {
+}
+#drupalcon-fact-list div{
+width: 288px;
+text-align: center;
+margin: 0px 10px 10px;
+font-size: 14px;
+}
