@@ -96,31 +96,9 @@ height: 106px;
 }
 
 #ting-tong {
-background-color: #666;
-border: 1px solid transparent;
-border-radius: 2px;
--moz-border-radius: 2px;
-color: #BBB;
 cursor: pointer;
-font-family: arial,sans-serif;
-font-size: 11px;
-font-weight: bold;
-line-height: 20px;
-height: 20px;
-text-align: center;
 margin-top: 6px;
 float: right;
-padding: 0px 10px;
-text-transform: uppercase;
-text-decoration: none;
-}
-
-#ting-tong:hover,
-#ting-tong:active,
-#ting-tong:focus,
-#ting-tong.active {
-background-color: #D14836;
-color: white;
 }
 
 .banner-nav {

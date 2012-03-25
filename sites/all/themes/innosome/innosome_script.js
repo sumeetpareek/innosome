@@ -32,12 +32,12 @@
 	
 // Highlight the contact/tingtong button when the cursor in in the fixed or header region
 $(document).ready(function(){
-	$('#section-header').mouseenter(function(){
-		$('#ting-tong').addClass('active');
-	});
-	$('#section-header').mouseleave(function(){
-		$('#ting-tong').removeClass('active');
-	});
+//	$('#section-header').mouseenter(function(){
+//		$('#ting-tong').addClass('active');
+//	});
+//	$('#section-header').mouseleave(function(){
+//		$('#ting-tong').removeClass('active');
+//	});
 	
 	$("#ting-tong").fancybox({
 		'overlayOpacity':1,
@@ -72,6 +72,17 @@ $(document).ready(function(){
         });
 
 
+	
+	$(".drupalcon-fact-img").fancybox({
+		'overlayOpacity':0.4,
+		'overlayColor':'#000',
+		'hideOnOverlayClick':false,
+		'hideOnContentClick':false,
+		'scrolling':'no',
+		'autoScale':true,
+		'centerOnScroll':true,
+		'autoDimensions':false,
+	});
 	
 	// Slide tweets
 	setInterval(function(){slide_tweets();}, 2000);
