@@ -39,6 +39,11 @@ $(document).ready(function(){
 //		$('#ting-tong').removeClass('active');
 //	});
 	
+//	$('#home-banner-slider li').change(function() {
+//		alert(this.attr('id'));
+//	});
+	
+	
 	$("#ting-tong").fancybox({
 		'overlayOpacity':1,
 		'overlayColor':'#000',
@@ -89,12 +94,24 @@ $(document).ready(function(){
 	
 	// Create the slider content TODO just home
 	$('#home-banner-slider').anythingSlider({
+		autoPlay: true,
+		autoPlayLocked: true,
+		delay: 5000,
+		resumeDelay: 2000,
+		pauseOnHover: true,
 	    buildNavigation: false,
 	    theme: 'minimalist-square',
 	    buildArrows: false,
 	    buildStartStop: false,
 	    hashTags: false,
+	    onSlideBegin: function(e, slider) {
+			$('#home-banner-nav ul.links li a[href="#'+slider.currentPage+'"]').removeClass('active');
+		},
+	    onSlideComplete: function(slider) {
+			$('#home-banner-nav ul.links li a[href="#'+slider.currentPage+'"]').addClass('active');
+		},
 	});
+
 	// set up external links
 	$('#home-banner-nav a').click(function(){
 	    $('#home-banner-nav a').removeClass('active');
