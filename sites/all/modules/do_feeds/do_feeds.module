@@ -1,0 +1,150 @@
+<?php
+/**
+ * Implements hook_cron().
+ */
+function do_feeds_cron() {
+//function do_feeds_init() {
+  cache_clear_all();
+  $get_user_links = db_select('field_data_do_profile_link', 'fddpl')
+    ->fields('fddpl')
+    ->execute()
+    ->fetchAll();
+
+//    dsm($get_user_links);
+
+  foreach ($get_user_links as $field) {
+//	  dsm($field->do_profile_link_url);
+//	  dsm(user_load($field->entity_id)->name);
+    $page = 0;
+    $next_page_present = TRUE;
+    $fetch_more_commits = TRUE;
+
+    $user_do_link = $field->do_profile_link_url;
+//	  dsm($user_do_link);
+    $user_details = user_load($field->entity_id);
+//	  dsm($user_details);
+    $username = $user_details->name;
+    dsm("Username: " . $username);
+    $user_timezone = $user_details->timezone;
+//	  dsm($user_timezone);
+//    $user_created = $user_details->created;
+//    dsm("User created on: ".format_date($user_created,$type = 'long',$format = 'F d,Y H:i',$timezone = $user_timezone));
+    $get_last_timestamp = db_select('do_feeds', 'df')
+      ->fields('df', array('commit_timestamp'))
+      ->condition('user', $username, '=')
+      ->execute()
+      ->fetchField();
+
+//    dsm(date('F d,Y H:i',$get_last_timestamp));
+//    dsm(format_date($get_last_timestamp,$type = 'long',$format = 'F d,Y H:i',$timezone = $user_timezone));
+
+    while ($fetch_more_commits && $next_page_present) {
+      $user_do_commit_link = $user_do_link . '/track/code?page=' . $page++;
+      dsm("User DO link" . $user_do_commit_link);
+      $html = file_get_html($user_do_commit_link);
+      dsm("Running page = " . $page . "\n");
+      $fetch_more_commits = do_feeds_retreive_commit_data($html, $get_last_timestamp, $username, $user_do_link, $user_timezone);
+      $next_page_present = $html->find('div.item-list ul.pager li.pager-next');
+    }
+//  	echo "<br><br>";
+  }
+}
+
+function do_feeds_retreive_commit_data($html, $get_last_timestamp = NULL, $username, $user_do_link, $user_timezone) {
+  $index = 0;
+  $test_array = array();
+
+  foreach ($html->find('li.views-row') as $element) {
+  //       echo $element. '<br>';
+//		echo "Project name: " . $element->find('div.views-field-nothing div.commit-global h3 a',0)->innertext . "<br>";
+//		echo "Project link: " . $element->find('div.views-field-nothing div.commit-global h3 a',0)->href . "<br>";
+
+      $test_array[$index]['project_name'] = $element->find('div.views-field-nothing div.commit-global h3 a', 0)->innertext;
+      $test_array[$index]['project_link'] = 'http://drupal.org' . $element->find('div.views-field-nothing div.commit-global h3 a', 0)->href;
+//			echo "Date: " . $element->find('div.views-field-nothing div.commit-global h3 a',1)->innertext . "<br>";
+      $test_array[$index]['commit_date'] = $element->find('div.views-field-nothing div.commit-global h3 a', 1)->innertext;
+      foreach ($element->find('div.views-field-nothing div.commit-global div.commit-info a') as $temp) {
+//	      echo "Commit: " . $temp->innertext . "                 Commit href: " . $temp->href. '<br>';
+        $test_array[$index]['commit'] = $temp->innertext;
+        $test_array[$index]['commit_link'] = $temp->href;
+      }
+      foreach ($element->find('div.views-field-nothing-1 span.field-content pre') as $temp) {
+//	      echo "Commit info: " . $temp->innertext . '<br>';
+        $test_array[$index]['commit_info'] = $temp->innertext;
+      }
+      foreach ($element->find('div.views-field-nothing div.commit-global div.attribtution a') as $temp) {
+//	      echo "User: " . $temp->innertext. '|User link:' . $temp->href .  '|Username on site: '.$username.'<br>';
+        $test_array[$index]['user'] = $temp->innertext;
+        $test_array[$index]['user_href'] = 'http://drupal.org' . $temp->href;
+      }
+      $index++;
+//    echo "<br>";
+  }
+  $count = 0;
+//	dsm($test_array);
+  foreach ($test_array as $element) {
+//		dsm($element['commit_date']);
+    list($month, $day, $year, $hour, $minute) = preg_split('/[\s,:]+/', $element['commit_date']);
+//		dsm($month);
+    $nmonth = date('m', strtotime($month));
+//		dsm($nmonth);
+    $timestamp=mktime($hour, $minute, 0, $nmonth, $day, $year);
+//		dsm($timestamp);
+//		$count++;
+
+    dsm("Commit date: " . format_date($timestamp, $type = 'long', $format = 'F d,Y H:i', $timezone = $user_timezone));
+
+//		dsm($user_do_link);
+
+    if ($timestamp != NULL && $timestamp <= $get_last_timestamp) {
+      return FALSE;
+    }
+
+    $node = new stdClass();
+    $node->type = 'user_commit_history';
+    node_object_prepare($node);
+    $node->title = $element['commit'];
+    $node->language = LANGUAGE_NONE;
+    $node->created = $timestamp;
+    $node->uid = 1;
+    $node->validated = TRUE;
+    $node->do_project_name[$node->language][0]['title'] = $element['project_name'];
+    $node->do_project_name[$node->language][0]['url'] = $element['project_link'];
+
+    $node->do_commit[$node->language][0]['title'] = $element['commit'];
+    $node->do_commit[$node->language][0]['url'] = $element['commit_link'];
+
+    $node->do_commit_date[$node->language][0]['value'] = format_date($timestamp, $type = 'long', $format = 'F d,Y H:i', $timezone = $user_timezone);
+
+    $node->do_commit_info[$node->language][0]['value'] = $element['commit_info'];
+
+    $node->do_commit_author[$node->language][0]['title'] = $username;
+    $node->do_commit_author[$node->language][0]['url'] = $user_do_link;
+
+    node_save($node);
+
+    $insert_commit = db_insert('do_feeds')
+      ->fields(array(
+        'project_name' => $element['project_name'],
+        'project_link' => $element['project_link'],
+        'commit' => $element['commit'],
+        'commit_link' => $element['commit_link'],
+        'commit_info' => $element['commit_info'],
+        'commit_timestamp' => $timestamp,
+        'user' => $username,
+        ))
+      ->execute();
+  }
+//	echo $count;
+  return TRUE;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function do_feeds_views_api($module, $api) {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'do_feeds'),
+  );
+}

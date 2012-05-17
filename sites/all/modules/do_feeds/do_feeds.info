@@ -1,0 +1,5 @@
+name = "DO Feeds"
+description = "Imports feeds for users from drupal.org"
+dependencies[] = simplehtmldom
+dependencies[] = link
+core = 7.x

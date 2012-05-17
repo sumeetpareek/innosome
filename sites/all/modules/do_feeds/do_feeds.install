@@ -1,0 +1,346 @@
+<?php
+/**@files
+ * Implements hook_install().
+ */
+function do_feeds_install() {
+  $t = get_t();
+  // Create a new content type.
+  $user_commit_history = array(
+    'type' => 'user_commit_history',
+    'name' => t('User Commit History'),
+    'base' => 'node_content',
+    'has_title' => FALSE,
+  );
+  // Set settings for this new content type.
+  variable_set('additional_settings__active_tab_user_commit_history', 'edit-menu');
+  variable_set('comment_user_commit_history', '1');
+  variable_set('menu_options_user_commit_history', array(''));
+  variable_set('node_options_user_commit_history', array('status'));
+  variable_set('node_preview_user_commit_history', 0);
+  variable_set('node_submitted_user_commit_history', 0);
+
+  // Create new fields for this content type and user profile.
+  foreach (_do_feeds_installed_fields() as $field) {
+    field_create_field($field);
+  }
+
+  /**
+   * Create all the instances for our fields
+   * to attach them to the new content type.
+   */
+  foreach (_do_feeds_installed_instances() as $instance) {
+    $instance['entity_type'] = 'node';
+    $instance['bundle'] = 'user_commit_history';
+    field_create_instance($instance);
+  }
+  // Finally saving the new content type.
+  $user_commit_history = node_type_set_defaults($user_commit_history);
+  node_type_save($user_commit_history);
+
+  // Create all the instances for our fields to attach them to the user profile.
+  foreach (_do_feeds_extra_profile_instances() as $instance) {
+    $instance['entity_type'] = 'user';
+    $instance['bundle'] = 'user';
+    field_create_instance($instance);
+  }
+}
+/**
+ * This function is called to create the fields
+ * for the custom content type User Commit History.
+ */
+function _do_feeds_installed_fields() {
+  $t = get_t();
+  return array(
+    'do_project_name' => array(
+      'field_name' => 'do_project_name',
+      'label' => t('DO Project Name'),
+      'type' => 'link_field',
+      'cardinality' => 1,
+      'settings' => array(),
+      'entity_types' => array('node'),
+      'locked' => FALSE,
+      'translatable' => TRUE,
+      'module' => 'link',
+      'active' => TRUE,
+    ),
+    'do_commit' => array(
+      'field_name' => 'do_commit',
+      'label' => t('Commit'),
+      'type' => 'link_field',
+      'cardinality' => 1,
+      'settings' => array(),
+      'entity_types' => array('node'),
+      'locked' => FALSE,
+      'translatable' => TRUE,
+      'module' => 'link',
+      'active' => TRUE,
+    ),
+    'do_commit_date' => array(
+      'field_name' => 'do_commit_date',
+      'label' => t('Commit Date'),
+      'type' => 'text',
+      'cardinality' => 1,
+      'settings' => array(
+        'max_length' => 255, // default
+      ),
+      'entity_types' => array('node'),
+      'locked' => FALSE,
+      'translatable' => TRUE,
+    ),
+    'do_commit_info' => array(
+      'field_name' => 'do_commit_info',
+      'label' => t('Commit Message'),
+      'type' => 'text_with_summary',
+      'cardinality' => 1,
+      'settings' => array(),
+      'entity_types' => array('node'),
+      'locked' => FALSE,
+      'translatable' => TRUE,
+    ),
+    'do_commit_author' => array(
+      'field_name' => 'do_commit_author',
+      'label' => t('Commit Author'),
+      'type' => 'link_field',
+      'cardinality' => 1,
+      'settings' => array(),
+      'entity_types' => array('node'),
+      'locked' => FALSE,
+      'translatable' => TRUE,
+      'module' => 'link',
+      'active' => TRUE,
+    ),
+    'do_profile_link' => array(
+      'field_name' => 'do_profile_link',
+      'label' => t('drupal.org Link'),
+      'type' => 'link_field',
+      'cardinality' => 1,
+      'settings' => array(
+          'required' => TRUE,
+      ),
+      'entity_types' => array('user'),
+      'locked' => FALSE,
+      'translatable' => TRUE,
+      'module' => 'link',
+      'active' => TRUE,
+    ),
+  );
+}
+/**
+ * This function is called to create the instances of fields to attach them to the
+ * custom content type User Commit History.
+ */
+function _do_feeds_installed_instances() {
+  $t = get_t();
+  return array(
+    'do_project_name' => array(
+      'field_name' => 'do_project_name',
+      'label' => t('DO Project Name'),
+      'settings' => array(
+        'attributes' => array(
+          'target' => '_blank',
+        ),
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+    ),
+    'do_commit' => array(
+      'field_name' => 'do_commit',
+      'label' => t('Commit'),
+      'settings' => array(
+        'attributes' => array(
+          'target' => '_blank',
+        ),
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'weight' => 1,
+        ),
+      ),
+    ),
+    'do_commit_date' => array(
+      'field_name' => 'do_commit_date',
+      'label' => t('Commit Date'),
+      'default_value' => array(),
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'weight' => 4,
+        ),
+      ),
+    ),
+    'do_commit_info' => array(
+      'field_name' => 'do_commit_info',
+      'label' => t('Commit Message'),
+      'widget' => array(
+        'type' => 'text_textarea_with_summary',
+        'settings' => array(
+          'rows' => 10,
+          'summary_rows' => 2,
+        ),
+      ),
+      'settings' => array(
+        'display_summary' => TRUE,
+        'text_processing' => 1,
+      ),
+      'default_value' => array(),
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'type' => 'text_default',
+          'settings' => array(),
+          'weight' => 5,
+        ),
+      ),
+    ),
+    'do_commit_author' => array(
+      'field_name' => 'do_commit_author',
+      'label' => t('Commit Author'),
+      'settings' => array(
+        'attributes' => array(
+          'target' => '_blank',
+        ),
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'weight' => 6,
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * This function is called to create the instances of fields to attach them to the user profile.
+ */
+function _do_feeds_extra_profile_instances() {
+  $t = get_t();
+  return array(
+    'do_profile_link' => array(
+      'field_name' => 'do_profile_link',
+      'label' => t('drupal.org Link'),
+      'required' => TRUE,
+      'settings' => array(
+        'attributes' => array(
+          'target' => '_blank',
+        ),
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'weight' => 4,
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * @files
+ * Implements hook_uninstall().
+ */
+function do_feeds_uninstall() {
+  // machine name of the content type
+  $name = 'user_commit_history';
+  $user_field = 'do_profile_link';
+
+  // gather all job nodes created
+  $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+  $result = db_query($sql, array(':type' => $name));
+  $nids = array();
+  foreach ($result as $row) {
+    $nids[] = $row->nid;
+  }
+  // delete all the job nodes at once
+  node_delete_multiple($nids);
+
+  // remove peristant variables that control settings
+  variable_del('additional_settings__active_tab_user_commit_history', 'edit-menu');
+  variable_del('comment_user_commit_history', '1');
+  variable_del('menu_options_user_commit_history', array(''));
+  variable_del('node_options_user_commit_history', array('status'));
+  variable_del('node_preview_user_commit_history', 0);
+  variable_del('node_submitted_user_commit_history', 0);
+
+  // find all fields and delete them
+  foreach (array_keys(_do_feeds_installed_fields()) as $field) {
+    field_delete_field($field);
+  }
+
+  // find all fields and delete instance
+  $instances = field_info_instances('node', $name);
+  foreach ($instances as $instance_name => $instance) {
+    field_delete_instance($instance);
+  }
+
+  // delete our content type
+  node_type_delete($name);
+
+  field_delete_field($user_field);
+  $instances = field_info_instances('user', $user_field);
+  foreach ($instances as $instance_name => $instance) {
+    field_delete_instance($instance);
+  }
+
+  // purge all field infromation
+  field_purge_batch(1000);
+}
+
+/**
+ * @files
+ * Implements hook_schema().
+ */
+function do_feeds_schema() {
+  $schema['do_feeds'] = array(
+    'description' => 'Stores user commit information',
+    'fields' => array(
+      'project_name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Contains the project name of the commit',
+      ),
+      'project_link' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Contains the project link of the commit',
+      ),
+      'commit' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+        'description' => 'Contains the commit',
+        'translatable' => TRUE,
+      ),
+      'commit_link' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Contains the commit link',
+      ),
+      'commit_info' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+        'description' => 'Contains the commit',
+        'translatable' => TRUE,
+      ),
+      'commit_timestamp' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Timestamp of the commit',
+      ),
+      'user' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Contains the user name',
+      ),
+    ),
+  );
+  return $schema;
+}
