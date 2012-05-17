@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Drupal Give Views Blocks feature.
+ */
+
+include_once 'drupal_give_views_blocks.features.inc';

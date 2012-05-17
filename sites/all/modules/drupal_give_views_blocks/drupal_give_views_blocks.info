@@ -1,0 +1,12 @@
+name = Drupal Give Views Blocks
+description = Views blocks for the /dupalgive page
+core = 7.x
+package = Features
+dependencies[] = ctools
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[views_view][] = contribution_sites
+features[views_view][] = drupal_blog_posts
+features[views_view][] = presentations
+features[views_view][] = sponsored_events

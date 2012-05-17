@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Meta tags for blogs feature.
+ */
+
+include_once 'meta_tags_for_blogs.features.inc';

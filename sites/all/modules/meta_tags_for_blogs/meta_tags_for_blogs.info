@@ -1,0 +1,8 @@
+name = Meta tags for blogs
+core = 7.x
+package = Features
+dependencies[] = ctools
+dependencies[] = metatag
+features[ctools][] = metatag:metatag:1
+features[features_api][] = api:1
+features[metatag_config][] = node:blog

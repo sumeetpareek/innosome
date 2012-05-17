@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Drupal Give Content Types feature.
+ */
+
+include_once 'drupal_give_content_types.features.inc';
