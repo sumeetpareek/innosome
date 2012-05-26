@@ -8,6 +8,7 @@ h1, h2, h3, h4, h5 {
 font-size: 18px;
 }
 
+a{outline: 0 none;}
 
 /*
  * Links
@@ -17,8 +18,8 @@ font-size: 18px;
  */
 a {
 	font-family: Arial, sans-serif;
-} 
- 
+}
+
 a:link {
 	color: #08C;
 	text-decoration: none;
@@ -44,9 +45,10 @@ background: black;
 height: 34px;
 position: fixed;
 width: 100%;
-z-index: 1000;
 }
-
+#section-header{z-index:1000;position:relative;}
+#region-menu,#section-content{z-index:-100;position:relative;}
+#region-top-first{z-index:1000;position:relative;}
 #zone-fixed-wrapper p{
 margin: 0;
 padding: 0;
@@ -55,9 +57,9 @@ padding: 0;
 .logo-img {
 float: left;
 margin-right: 20px;
-position: absolute;
+position: relative;
 display: block;
-z-index: 9999;
+z-index: 99999;
 }
 
 #region-branding{
@@ -358,7 +360,7 @@ color: white;
 background: #D14836;
 padding: 2px 8px;
 border-radius: 4px;
-font-weight: bold;	
+font-weight: bold;
 }
 
 #zone-postscript #region-postscript-first h2.block-title {
@@ -472,7 +474,7 @@ font-size: 23px;
 /*background: #F7F7F7;*/
 background-image:url('title_background.png');
 background-repeat:no-repeat;
-background-position:right bottom; 
+background-position:right bottom;
 color: #474646;
 text-shadow: 2px 1px 4px #A1A1A1;
 letter-spacing: 1px;
@@ -527,7 +529,7 @@ margin-bottom: 5px;
 #fancybox-content label {
 display: block;
 float: right;
-margin-left: 10px;	
+margin-left: 10px;
 }
 #fancybox-content #edit-name,
 #fancybox-content #edit-mail {
@@ -778,7 +780,7 @@ pre.prettyprint ol.linenums {
 }
 .block-contribution-sites-block .contribution-site-body p,
 .block-presentations-block .views-label-rendered-entity {
-  color: #525151;	
+  color: #525151;
   margin-bottom: 5px;
 }
 .block-contribution-sites-block .views-field-title,

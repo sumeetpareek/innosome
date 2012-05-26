@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @file
  * Alpha's theme implementation to display the basic html structure of a single
@@ -12,6 +12,7 @@
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
   <?php print $scripts; ?>
+  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body<?php print $attributes;?>>
   <div id="skip-link">

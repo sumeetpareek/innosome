@@ -1,49 +1,19 @@
 (function ($) {
 
-//	// Grayscale w canvas method
-//	function grayscale(src){
-//		var canvas = document.createElement('canvas');
-//		var ctx = canvas.getContext('2d');
-//		var imgObj = new Image();
-//		imgObj.src = src;
-//		canvas.width = imgObj.width;
-//		canvas.height = imgObj.height; 
-//		ctx.drawImage(imgObj, 0, 0); 
-//		var imgPixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
-//		for(var y = 0; y < imgPixels.height; y++){
-//			for(var x = 0; x < imgPixels.width; x++){
-//				var i = (y * 4) * imgPixels.width + x * 4;
-//				var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
-//				imgPixels.data[i] = avg; 
-//				imgPixels.data[i + 1] = avg; 
-//				imgPixels.data[i + 2] = avg;
-//			}
-//		}
-//		ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
-//		return canvas.toDataURL();
-//	}
-//
+
 	function slide_tweets() {
 		var item = $('.view-innoraft-tweets li:last').hide().detach();
 		$('.view-innoraft-tweets li:first').before(item);
 		item.slideDown('slow');
 	}
-	
-	
-// Highlight the contact/tingtong button when the cursor in in the fixed or header region
+
+
+
 $(document).ready(function(){
-//	$('#section-header').mouseenter(function(){
-//		$('#ting-tong').addClass('active');
-//	});
-//	$('#section-header').mouseleave(function(){
-//		$('#ting-tong').removeClass('active');
-//	});
-	
-//	$('#home-banner-slider li').change(function() {
-//		alert(this.attr('id'));
-//	});
-	
-	
+ if ($.browser.msie  && parseInt($.browser.version, 10) <= 8) {
+  $('#ting-tong').css('display','none');
+         }
+
 	$("#ting-tong").fancybox({
 		'overlayOpacity':1,
 		'overlayColor':'#000',
@@ -56,11 +26,14 @@ $(document).ready(function(){
 		'height':580,
 		'autoDimensions':false,
 		'onStart':function(){
-			document.getElementById('tingtongaudio').play();
+		    if ($.browser.msie  && parseInt($.browser.version, 10) <= 8) {
+         } else {
+            document.getElementById('tingtongaudio').play();
+        }
 		},
 		'onClosed':function(){
 			$('#region-footer-second').parent().css('width',0).css('height','0');
-		},
+		}
 	});
 
         $(".drupalcon-fact-img").fancybox({
@@ -77,7 +50,7 @@ $(document).ready(function(){
         });
 
 
-	
+
 	$(".drupalcon-fact-img").fancybox({
 		'overlayOpacity':0.4,
 		'overlayColor':'#000',
@@ -86,12 +59,12 @@ $(document).ready(function(){
 		'scrolling':'no',
 		'autoScale':true,
 		'centerOnScroll':true,
-		'autoDimensions':false,
+		'autoDimensions':false
 	});
-	
+
 	// Slide tweets
 	setInterval(function(){slide_tweets();}, 2000);
-	
+
 	// Create the slider content TODO just home
 	$('#home-banner-slider').anythingSlider({
 		autoPlay: true,
@@ -109,7 +82,7 @@ $(document).ready(function(){
 		},
 	    onSlideComplete: function(slider) {
 			$('#home-banner-nav ul.links li a[href="#'+slider.currentPage+'"]').addClass('active');
-		},
+		}
 	});
 
 	// set up external links
@@ -120,12 +93,12 @@ $(document).ready(function(){
 	    $('#home-banner-slider').anythingSlider(slide);
 	    return false;
 	});
-	
+
 	// CSS changes for FB plugin that is displayed in an iframe
 	$('.fb-iframe iframe').contents().find('.fbConnectWidgetTopmost').css({
 	    border: 'none'
 	});
-	
+
 	// Create vertical slider for the twitter block
 //	$('#block-views-innoraft-tweets-block ul').anythingSlider({
 //		  // Appearance
@@ -188,10 +161,10 @@ $(document).ready(function(){
 
 //On window load. This waits until images have loaded which is essential
 //$(window).load(function(){
-//	
+//
 //	// Fade in images so there isn't a color "pop" document load and then on window load
 //	$(".list-of-services img").fadeIn(500);
-//	
+//
 //	// clone image
 //	$('.list-of-services img').each(function(){
 //		var el = $(this);
@@ -202,14 +175,14 @@ $(document).ready(function(){
 //		});
 //		this.src = grayscale(this.src);
 //	});
-//	
-//	// Fade image 
+//
+//	// Fade image
 //	$('.list-of-services').mouseover(function(){
 //		$(this).parent().find('img:first').stop().animate({opacity:1}, 1000);
 //	})
 //	$('.list-of-services').mouseout(function(){
 //		$(this).parent().find('.img_grayscale').stop().animate({opacity:0}, 1000);
-//	});		
+//	});
 //});
 
 })(jQuery);
